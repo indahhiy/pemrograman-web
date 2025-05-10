@@ -1,16 +1,16 @@
 function moveLogoUp() {
-    const logo = document.getElementById('logo');
-    const biodata = document.getElementById('biodata');
-  
-    // Gerakkan logo dan hilangkan
-    logo.classList.add('moved-up');
-  
-    // Tampilkan biodata setelah logo selesai animasi
+  const logo = document.getElementById('logo');
+  const biodata = document.getElementById('biodata');
+
+  // Tambah class Tailwind untuk animasi pindah dan hilang
+  logo.classList.add('opacity-0', '-translate-y-52', 'duration-1000', 'transition-all');
+
+  // Setelah animasi selesai, sembunyikan dan tampilkan biodata
+  setTimeout(() => {
+    logo.style.display = 'none';
+    biodata.classList.remove('hidden');
     setTimeout(() => {
-      logo.style.display = 'none'; // sembunyikan dari layout
-      biodata.classList.remove('hidden');
-      setTimeout(() => {
-        biodata.classList.add('visible');
-      }, 10);
-    }, 1000); // sesuai waktu transisi di CSS
-  }
+      biodata.classList.remove('opacity-0');
+    }, 10);
+  }, 1000); // 1 detik sesuai durasi transisi
+}

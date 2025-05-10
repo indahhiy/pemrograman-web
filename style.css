@@ -1,39 +1,24 @@
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    font-family: sans-serif;
-  }
-  
-  .logo {
-    width: 100px;
-    height: 100px;
-    border: 2px solid #000;
-    border-radius: 50%;
-    object-fit: cover;
-    transition: transform 1s ease, opacity 0.5s ease;
-    cursor: pointer;
-  }
-  
-  .moved-up {
-    transform: translateY(-200px);
-    opacity: 0;
-  }
-  
-  .biodata {
-    margin-top: 40px;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 1s ease;
-  }
-  
-  .biodata.visible {
-    opacity: 1;
-  }
-  
-  .hidden {
-    display: none;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 1s ease, opacity 0.5s ease;
+  cursor: pointer;
+}
+
+.moved-up {
+  transform: translateY(-200px);
+  opacity: 0;
+}
