@@ -1,5 +1,6 @@
 function moveLogoUp() {
   const logo = document.getElementById('logo');
+  const background = document.getElementById('background');
   const biodata = document.getElementById('biodata');
 
   // Tambah class Tailwind untuk animasi pindah dan hilang
