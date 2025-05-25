@@ -1,14 +1,27 @@
+<?php
+include 'koneksi.php';
+
+// Simpan data jika form disubmit
+$pesan = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['simpan'])) {
+    $nama = $_POST['fname'];
+    $email = $_POST['email'];
+
+    $sql = "INSERT INTO pelanggan (nama, email) VALUES ('$nama', '$email')";
+    if (mysqli_query($conn, $sql)) {
+        $pesan = "✅ Data berhasil disimpan!";
+    } else {
+        $pesan = "❌ Error: " . mysqli_error($conn);
+    }
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEMO-DOM-JS</title>
-
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style type="text/tailwindcss"></style>
-
-
+    <title>Form & Data Pelanggan</title>
 
     <script>
         function validateForm() {
@@ -25,22 +38,9 @@
                 return false;
             }
 
-
-            document.getElementById("genderSection").style.display = "block";
-
-            return false;
+            return true;
         }
-
-        function showMessage() {
-            let gender = document.querySelector('input[name="gender"]:checked');
-            if (gender) {
-                let message = gender.value === "male" ? "HAI TAMPAN" : "HAI CANTIK";
-                document.getElementById("message").textContent = message;
-            }
-        }
-
     </script>
-
 
     <style>
         body {
@@ -49,17 +49,19 @@
             padding: 20px;
         }
 
-        form {
+        form, table {
             background-color: #fff;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto 20px auto;
         }
 
-        input[type="text"] {
+        input[type="text"], input[type="email"] {
             width: 100%;
             padding: 10px;
-            margin: 5px 0;
+            margin: 8px 0;
             border-radius: 4px;
             border: 1px solid #ccc;
         }
@@ -71,63 +73,88 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            margin-top: 10px;
         }
 
         input[type="submit"]:hover {
             background-color: #45a049;
         }
 
-        h1 {
+        h1, h2 {
             color: #fcfcfc;
             text-align: center;
         }
 
-        #genderSection {
-            margin-top: 20px;
-            display: none;
-            font-size: large;
-            color: #fcfcfc;
-        }
-
-        #message {
-            margin-top: 10px;
+        .message-box {
+            color: #fff;
+            text-align: center;
+            margin: 10px;
             font-weight: bold;
-            font-size: large;
         }
 
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
     </style>
-
-
-
-
 </head>
 <body>
 
-    <div>
-        <h1>LOGIN FORM</h1>
+    <h1>FORM PELANGGAN</h1>
 
-        <form name="myForm" action="/submit" onsubmit="return validateForm()" method="post">
-            Name : <br>
-            <input type="text" id="fname" name="fname"><br>
+    <!-- Form Input -->
+    <form name="myForm" method="post" onsubmit="return validateForm()">
+        Nama : <br>
+        <input type="text" name="fname" required><br>
 
-            Email : <br>
-            <input type="text" id="email" name="email"><br><br>
+        Email : <br>
+        <input type="email" name="email" required><br>
 
-            <input type="submit" value="Submit">
+        <input type="submit" name="simpan" value="Simpan">
+    </form>
 
-
-        </form>
-
-        <div id="genderSection">
-            <p>Pilih Jenis Kelamin:</p>
-            <input type="radio" name="gender" value="male" onclick="showMessage()"> Laki-laki<br>
-            <input type="radio" name="gender" value="female" onclick="showMessage()"> Perempuan<br>
-            <p id="message"></p>
-        </div>
-
-
+    <!-- Pesan -->
+    <div class="message-box">
+        <?php echo $pesan; ?>
     </div>
 
-    
+    <!-- Data Pelanggan -->
+    <h2>DAFTAR PELANGGAN</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Email</th>
+        </tr>
+        <?php
+        $sql = "SELECT * FROM pelanggan";
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>
+                        <td>{$row['id']}</td>
+                        <td>{$row['nama']}</td>
+                        <td>{$row['email']}</td>
+                    </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='3'>Belum ada data pelanggan.</td></tr>";
+        }
+        ?>
+    </table>
+
 </body>
 </html>

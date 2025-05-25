@@ -1,22 +1,14 @@
 <?php
-$conn = pg_connect("host=localhost dbname = demoform user=postgres password=root")
+$host = "localhost";
+$user = "root";
+$pass = ""; // Kosong jika pakai Laragon
+$db   = "db_toko";
 
+// Buat koneksi
+$conn = mysqli_connect($host, $user, $pass, $db);
+
+// Cek koneksi
 if (!$conn) {
-    die("Connection failed");
+    die("Koneksi gagal: " . mysqli_connect_error());
 }
-
-$name = $_POST['fname'];
-$email = $_POST['email'];
-$phone = $_POST['gender'] ?? '';
-
-$query = "INSERT INTO users (name, email, phone) VALUES ($1, $2, $3)";
-$result = pg_query_params($conn, query, array($name, $email, $gender));
-
-if ($result) {
-    echo "Data inserted successfully";
-} else {
-    echo "Error inserting data";
-}
-
-pg_close($conn);
 ?>
