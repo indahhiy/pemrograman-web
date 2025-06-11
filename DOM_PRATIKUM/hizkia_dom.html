@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Hizkia Sugondo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #0056b3;
+        }
+
+        p {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Manipulasi DOM </h1>
+    <p id="teks">Klik untuk merubah kalimat.</p>
+    <button onclick="tampilkanPopup()">Klik Saya</button>
+
+    <script>
+        function tampilkanPopup() {
+            // Menampilkan pop-up
+            alert("Kalimat telah di ubah.");
+
+            // Mengubah isi teks
+            document.getElementById("teks").innerText = "Kalimat Berhasil Diubah.";
+        }
+    </script>
+
+</body>
+</html>
