@@ -1,29 +1,3 @@
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload gfhgmk,jhg.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
-
 import React, { useState, useEffect } from 'react';
 
 // === Simulasi API Service ===
@@ -31,43 +5,24 @@ import React, { useState, useEffect } from 'react';
 // Untuk tujuan demo ini, kita akan menggunakan data dummy dan setTimeout
 // untuk mensimulasikan penundaan jaringan.
 const apiService = {
-  // Data dummy yang akan kita gunakan
-  _data: [
-    { id: 1, name: 'Buku React Pemula', category: 'Edukasi', price: 150000 },
-    { id: 2, name: 'Kemeja Katun', category: 'Pakaian', price: 200000 },
-    { id: 3, name: 'Keyboard Mekanik', category: 'Elektronik', price: 850000 },
-    { id: 4, name: 'Mouse Wireless', category: 'Elektronik', price: 120000 },
-    { id: 5, name: 'Celana Jeans', category: 'Pakaian', price: 300000 },
-  ],
-
-  // Mengambil semua item (simulasi GET)
   async fetchItems() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log('API: Mengambil item...');
-        resolve([...apiService._data]); // Mengembalikan salinan data
-      }, 700); // Simulasikan penundaan 700ms
+    const resultPromise = await fetch('http://localhost:3001/api/users', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
+
+    const response = await resultPromise.json();
+    console.log(response);
+
+    return response.data.results;
   },
 
-  // Menghapus item berdasarkan ID (simulasi DELETE)
+  // Menghapus item berdasarkan ID
   async deleteItem(id) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        console.log(`API: Mencoba menghapus item dengan ID: ${id}`);
-        const initialLength = apiService._data.length;
-        apiService._data = apiService._data.filter((item) => item.id !== id);
-        if (apiService._data.length < initialLength) {
-          console.log(`API: Item ID ${id} berhasil dihapus.`);
-          resolve({
-            success: true,
-            message: `Item ID ${id} berhasil dihapus.`,
-          });
-        } else {
-          console.log(`API: Item ID ${id} tidak ditemukan.`);
-          reject(new Error(`Item ID ${id} tidak ditemukan.`));
-        }
-      }, 500); // Simulasikan penundaan 500ms
+    return fetch(`http://localhost:3001/users/${id}`, {
+      method: 'DELETE',
     });
   },
 };
@@ -89,10 +44,7 @@ const DataTable = ({ items, onDeleteItem }) => {
               Nama
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Kategori
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Harga
+              Email
             </th>
             <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">
               Aksi
@@ -123,10 +75,7 @@ const DataTable = ({ items, onDeleteItem }) => {
                   {item.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {item.category}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                  Rp{item.price.toLocaleString('id-ID')}
+                  {item.email}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-center">
                   <button
